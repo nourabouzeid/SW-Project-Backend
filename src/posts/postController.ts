@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
-import errorHandler from "../services/errorHandler"
-import postService from "../services/postService"
+import errorHandler from "../middlewares/errorHandler"
+import postService from "./postService"
 
 class PostController {
     public async getPosts(req: Request, res: Response) {
