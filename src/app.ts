@@ -1,18 +1,28 @@
-import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
+import express, { Express } from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import indexRouter from '@routes/index';
 import swaggerSpec from "./swagger";
 import swaggerUi from 'swagger-ui-express'
-import postRouter from "./posts/postRouter";
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
 
-app.use(express.json())
-app.use("/Posts", postRouter)
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+app.use(cors({
+    origin: '*',    // Allow this origin to send request to server and recieve response from server
+    credentials: true   // Allow cookies to be sent in cross-origin requests
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+app.use('/', indexRouter);
+
+app.listen(parseInt(process.env.PORT as string), () => {
+    console.log(`Start connection`);
+})
