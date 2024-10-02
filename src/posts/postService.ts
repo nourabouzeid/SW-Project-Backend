@@ -1,8 +1,8 @@
 class PostService {
     public async getPosts() {
         // try {
-        //   const foundBooks = await this.prisma.book.findMany()
-        //   return foundBooks
+        //   const foundPosts = await this.prisma.book.findMany()
+        //   return foundPosts
         // } catch (error: unknown) {
         //   this.logError(error)
         //   throw error

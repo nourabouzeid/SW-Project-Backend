@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import swaggerSpec from "./swagger";
 import swaggerUi from 'swagger-ui-express'
-import postRouter from "./routes/postRouter";
+import postRouter from "./posts/postRouter";
 
 dotenv.config();
 
