@@ -18,7 +18,7 @@
  *          type: string
  *    responses:
  *      200:
- *        description: data of user 
+ *        description: data of user
  *        content:
  *          application/json:
  *            schema:
@@ -31,20 +31,20 @@
  *                 id:
  *                  type: integer
  *                 name:
- *                  type: string      
+ *                  type: string
  *                 email:
- *                  type: string      
+ *                  type: string
  *               user_token:
- *                type: string      
- * 
- * 
+ *                type: string
+ *
+ *
  */
 
-import googleAuth from '@controllers/googleAuth';
-import { Router } from 'express';
+import googleAuth from "@controllers/googleAuth";
+import { Router } from "express";
 
 const router: Router = Router();
 
-router.post('/googleToken', googleAuth);
+router.post("/googleToken", googleAuth);
 
 export default router;

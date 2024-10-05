@@ -14,13 +14,13 @@
  *        schema:
  *         type: object
  *         properties:
- *          email: 
+ *          email:
  *           type: string
- *          password: 
+ *          password:
  *           type: string
  *     responses:
  *       200:
- *         description: data of user 
+ *         description: data of user
  *         content:
  *           application/json:
  *             schema:
@@ -32,13 +32,13 @@
  *                user:
  *                 type: object
  *                 properties:
- *                  id: 
+ *                  id:
  *                   type: integer
- *                  name: 
+ *                  name:
  *                   type: string
- *                  email: 
+ *                  email:
  *                   type: string
- * 
+ *
  *  /signup:
  *   post:
  *     summary: Try to signup new user in the application
@@ -52,19 +52,19 @@
  *        schema:
  *         type: object
  *         properties:
- *          name: 
+ *          name:
  *           type: string
- *          email: 
+ *          email:
  *           type: string
- *          password: 
+ *          password:
  *           type: string
- *          confirm_pass: 
+ *          confirm_pass:
  *           type: string
  *           description: the same password for confirmation
- * 
+ *
  *     responses:
  *       200:
- *         description: data of user 
+ *         description: data of user
  *         content:
  *           application/json:
  *             schema:
@@ -74,11 +74,11 @@
  *                user_data:
  *                 type: object
  *                 properties:
- *                  name: 
+ *                  name:
  *                   type: string
- *                  email: 
- *                   type: string    
- * 
+ *                  email:
+ *                   type: string
+ *
  *  /generateCode:
  *   post:
  *     summary: Generate Code for verify user's email
@@ -92,19 +92,19 @@
  *        schema:
  *         type: object
  *         properties:
- *          email: 
+ *          email:
  *           type: string
- * 
+ *
  *     responses:
  *       200:
- *         description: data of user 
+ *         description: data of user
  *         content:
  *           application/json:
  *             schema:
  *               properties:
  *                status:
  *                 type: string
- * 
+ *
  *  /verifyCode:
  *   post:
  *     summary: Verify Code to activate user's email
@@ -118,36 +118,33 @@
  *        schema:
  *         type: object
  *         properties:
- *          email: 
+ *          email:
  *           type: string
- *          code: 
+ *          code:
  *           type: string
- * 
+ *
  *     responses:
  *       200:
- *         description: data of user 
+ *         description: data of user
  *         content:
  *           application/json:
  *             schema:
  *               properties:
  *                status:
  *                 type: string
- * 
+ *
  */
 
-
-import { Router } from 'express';
-import login from '@controllers/login';
-import signup from '@controllers/signup';
-import verfication_code from '@controllers/verficatoinCode';
-
+import { Router } from "express";
+import login from "@controllers/login";
+import signup from "@controllers/signup";
+import verfication_code from "@controllers/verficatoinCode";
 
 const router: Router = Router();
 
-
-router.post('/login', login);
-router.post('/signup', signup);
-router.post('/generateCode', verfication_code.generateCode);
-router.post('/verifyCode', verfication_code.verifyCode);
+router.post("/login", login);
+router.post("/signup", signup);
+router.post("/generateCode", verfication_code.generateCode);
+router.post("/verifyCode", verfication_code.verifyCode);
 
 export default router;
