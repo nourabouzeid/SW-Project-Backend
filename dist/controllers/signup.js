@@ -25,48 +25,51 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             throw new Error(error.details[0].message);
         }
         const found_user = yield _DB_1.default.user.findUnique({
-            where: { email }
+            where: { email },
         });
-        if (found_user && found_user.email_status === 'Activated') {
-            throw new Error('Email is already found');
+        if (found_user && found_user.email_status === "Activated") {
+            throw new Error("Email is already found");
         }
         const verification_code = randomstring_1.default.generate(8);
         const info = yield (0, sendEmail_1.default)(verification_code, email);
         if (!info) {
-            throw new Error('Error in sending email');
+            throw new Error("Error in sending email");
         }
         yield _DB_1.default.user.upsert({
             where: { email },
             update: {
-                name, password: bcrypt_1.default.hashSync(password, 10),
+                name,
+                password: bcrypt_1.default.hashSync(password, 10),
                 verfication_code: {
                     update: {
-                        code: verification_code
-                    }
-                }
+                        code: verification_code,
+                    },
+                },
             },
             create: {
-                name, email, password: bcrypt_1.default.hashSync(password, 10),
+                name,
+                email,
+                password: bcrypt_1.default.hashSync(password, 10),
                 verfication_code: {
                     create: {
-                        code: verification_code
-                    }
-                }
+                        code: verification_code,
+                    },
+                },
             },
         });
         res.status(200).json({
-            status: 'success',
+            status: "success",
             user_data: {
                 name,
-                email
-            }
+                email,
+            },
         });
     }
     catch (e) {
         console.log(e.message);
         res.status(400).json({
-            status: 'failed',
-            message: e.message
+            status: "failed",
+            message: e.message,
         });
     }
 });

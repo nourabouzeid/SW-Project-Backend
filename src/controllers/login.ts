@@ -18,6 +18,8 @@ const login = async (req: Request, res: Response) => {
         if (error) {
             throw new Error(error.details[0].message);
         }
+        //write this in a cleaner way to handle
+        //try to find in db and handle
         const user: User | null = await db.user.findUnique({
             where: { email },
         });
@@ -30,6 +32,8 @@ const login = async (req: Request, res: Response) => {
         if (user.email_status !== "Activated") {
             throw new Error("Email is not verified");
         }
+
+        //create jwt and store it in a cookie
         const user_token: string = jwt.sign(
             { id: user.id },
             process.env.JWT_SECRET as string,

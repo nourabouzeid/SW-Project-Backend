@@ -3,7 +3,7 @@
 // we can make multi-schema files in a folder but need config in generator or merge all models in one schema file
 
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
 }
 

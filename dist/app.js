@@ -13,14 +13,14 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
-    origin: '*', // Allow this origin to send request to server and recieve response from server
-    credentials: true // Allow cookies to be sent in cross-origin requests
+    origin: "*", // Allow this origin to send request to server and recieve response from server
+    credentials: true, // Allow cookies to be sent in cross-origin requests
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)(process.env.COOKIE_SECRET));
-app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.default));
-app.use('/', index_1.default);
+app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.default));
+app.use("/", index_1.default);
 app.listen(parseInt(process.env.PORT), () => {
     console.log(`Start connection`);
 });

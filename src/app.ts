@@ -23,5 +23,5 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/", indexRouter);
 
 app.listen(parseInt(process.env.PORT as string), () => {
-    console.log(`Start connection`);
+    console.log(`Listening on port ${process.env.PORT}`);
 });
