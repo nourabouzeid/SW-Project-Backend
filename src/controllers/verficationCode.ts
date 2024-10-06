@@ -3,7 +3,6 @@ import Randomstring from "randomstring";
 import { Request, Response } from "express";
 import sendEmail from "@services/sendEmail";
 import db from "@DB";
-import { User, Verification } from "@prisma/client";
 
 const verfication_code = {
     generateCode: async (req: Request, res: Response): Promise<void> => {
@@ -22,7 +21,7 @@ const verfication_code = {
             if (error) {
                 throw new Error(error.details[0].message);
             }
-            const found_user: User | null = await db.user.findUnique({
+            const found_user = await db.user.findUnique({
                 where: { email },
             });
             if (!found_user) {
@@ -72,7 +71,7 @@ const verfication_code = {
             if (error) {
                 throw new Error(error.details[0].message);
             }
-            const data: Verification | null = await db.verification.findUnique({
+            const data = await db.verification.findUnique({
                 where: {
                     code,
                     user: {

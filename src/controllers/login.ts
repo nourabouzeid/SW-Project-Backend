@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { User } from "@prisma/client";
 import db from "@DB";
 import { ValidationError } from "joi";
 import user_validate from "@validators/user";
@@ -20,7 +19,7 @@ const login = async (req: Request, res: Response) => {
         }
         //write this in a cleaner way to handle
         //try to find in db and handle
-        const user: User | null = await db.user.findUnique({
+        const user = await db.user.findUnique({
             where: { email },
         });
         if (!user) {

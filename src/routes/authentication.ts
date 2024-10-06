@@ -138,7 +138,7 @@
 import { Router } from "express";
 import login from "@controllers/login";
 import signup from "@controllers/signup";
-import verfication_code from "@controllers/verficatoinCode";
+import verfication_code from "@controllers/verficationCode";
 
 const router: Router = Router();
 
