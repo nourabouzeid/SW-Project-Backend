@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const googleAuth_1 = require("@services/googleAuth");
+const google_auth_service_1 = require("@services/google-auth-service");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const createCookie_1 = __importDefault(require("@services/createCookie"));
+const cookie_service_1 = __importDefault(require("@services/cookie-service"));
 function googleAuth(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -24,15 +24,17 @@ function googleAuth(req, res) {
                 throw new Error("There is no token");
             }
             //get user info using googleApi
-            const data = yield (0, googleAuth_1.getUserData)(token);
+            const data = yield (0, google_auth_service_1.getUserData)(token);
             if (!data) {
                 throw new Error("Invalid token");
             }
             //upsert user into db
-            const user = yield (0, googleAuth_1.upsertUser)(data);
+            const user = yield (0, google_auth_service_1.upsertUser)(data);
             //create a jwt and store it in a cookie
-            const user_token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
-            (0, createCookie_1.default)(res, user_token);
+            const user_token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.JWT_SECRET, {
+                expiresIn: process.env.JWT_EXPIRE,
+            });
+            (0, cookie_service_1.default)(res, user_token);
             res.status(200).json({
                 status: "success",
                 user: {

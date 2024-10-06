@@ -1,8 +1,8 @@
 import { Router } from "express";
-import googleAuth from "./googleAuth";
-import authenticationRouter from "./authentication";
-import userRouter from "./user";
-import userAuth from "@middlewares/userAuth";
+import googleAuth from "./google-auth-routes";
+import authenticationRouter from "./authentication-routes";
+import userRouter from "./user-routes";
+import userAuth from "@middlewares/auth-middleware";
 
 const router: Router = Router();
 

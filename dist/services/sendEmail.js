@@ -21,8 +21,8 @@ function sendEmail(code, email) {
             const info = yield emailConfig_1.default.sendMail({
                 from: process.env.AUTH_EMAIL,
                 to: email,
-                subject: 'Email verfication',
-                html: email_body
+                subject: "Email verfication",
+                html: email_body,
             });
             return info;
         }

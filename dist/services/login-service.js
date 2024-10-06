@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const _DB_1 = __importDefault(require("@DB"));
+const PrismaClient_1 = __importDefault(require("src/prisma/PrismaClient"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const findUser = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield _DB_1.default.user.findUnique({
+    const user = yield PrismaClient_1.default.user.findUnique({
         where: { email },
     });
     if (!user) {

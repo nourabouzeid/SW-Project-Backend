@@ -1,3 +1,4 @@
+"use strict";
 /**
  * @swagger
  * paths:
@@ -134,17 +135,17 @@
  *                 type: string
  *
  */
-
-import { Router } from "express";
-import login from "@controllers/login";
-import signup from "@controllers/signup";
-import verfication_code from "@controllers/verficatoinCode";
-
-const router: Router = Router();
-
-router.post("/login", login);
-router.post("/signup", signup);
-router.post("/generateCode", verfication_code.generateCode);
-router.post("/verifyCode", verfication_code.verifyCode);
-
-export default router;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const login_controller_1 = __importDefault(require("@controllers/login-controller"));
+const signup_controller_1 = __importDefault(require("@controllers/signup-controller"));
+const verification_controller_1 = require("@controllers/verification-controller");
+const router = (0, express_1.Router)();
+router.post("/login", login_controller_1.default);
+router.post("/signup", signup_controller_1.default);
+router.post("/generateCode", verification_controller_1.generateCode);
+router.post("/verifyCode", verification_controller_1.verifyCode);
+exports.default = router;

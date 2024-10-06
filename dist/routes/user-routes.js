@@ -37,10 +37,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const logout_1 = __importDefault(require("@controllers/logout"));
+const logout_controller_1 = __importDefault(require("@controllers/logout-controller"));
 const router = (0, express_1.Router)();
 router.route("/").get((req, res) => {
     res.sendStatus(200);
 });
-router.get("/logout", logout_1.default);
+router.get("/logout", logout_controller_1.default);
 exports.default = router;

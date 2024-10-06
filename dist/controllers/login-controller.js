@@ -12,31 +12,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const randomstring_1 = __importDefault(require("randomstring"));
-const sendEmail_1 = __importDefault(require("@services/sendEmail"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const cookie_service_1 = __importDefault(require("@services/cookie-service"));
+const login_service_1 = __importDefault(require("@services/login-service"));
 const user_1 = require("@validators/user");
-const signup_1 = require("@services/signup");
-const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        //validate user data recieved from request body
-        const { name, email, password, confirm_pass } = req.body;
-        (0, user_1.validateSingUp)(name, email, password, confirm_pass);
-        //check if user is found in database
-        yield (0, signup_1.findUser)(email, password);
-        //send verification code to email
-        const verification_code = randomstring_1.default.generate(8);
-        const info = yield (0, sendEmail_1.default)(verification_code, email);
-        if (!info) {
-            throw new Error("Error in sending email");
-        }
-        //upsert user in db
-        yield (0, signup_1.upsertUser)(name, email, password, verification_code);
+        //validate email and password from request
+        const { email, password } = req.body;
+        (0, user_1.validateLogIn)(email, password);
+        //try to find user in db
+        const user = yield (0, login_service_1.default)(email, password);
+        //create jwt and store it in a cookie
+        const user_token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRE,
+        });
+        (0, cookie_service_1.default)(res, user_token);
         res.status(200).json({
             status: "success",
-            user_data: {
-                name,
-                email,
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
             },
+            user_token,
         });
     }
     catch (e) {
@@ -47,4 +46,4 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
 });
-exports.default = signup;
+exports.default = login;

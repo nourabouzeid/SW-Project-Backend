@@ -1,9 +1,6 @@
-import transporter from "@config/emailConfig";
+import transporter from "@config/email-config";
 
-async function sendEmail(
-    code: string,
-    email: string
-): Promise<string | undefined> {
+const sendEmail = async (code: string, email: string): Promise<string | undefined> => {
     try {
         const email_body: string = `<h3>Hello from Omar,</h3>
             <p>Thanks for joining our family. Use this code: <b>   ${code}     </b> for verifing your email</p>`;
@@ -18,7 +15,7 @@ async function sendEmail(
         console.log(e.message);
         return undefined;
     }
-}
+};
 
 // module.exports = sendEmail;
 export default sendEmail;

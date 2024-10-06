@@ -1,3 +1,4 @@
+"use strict";
 /**
  * @swagger
  * paths:
@@ -39,12 +40,12 @@
  *
  *
  */
-
-import googleAuth from "@controllers/googleAuth";
-import { Router } from "express";
-
-const router: Router = Router();
-
-router.post("/googleToken", googleAuth);
-
-export default router;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const google_auth_controller_1 = __importDefault(require("@controllers/google-auth-controller"));
+const express_1 = require("express");
+const router = (0, express_1.Router)();
+router.post("/googleToken", google_auth_controller_1.default);
+exports.default = router;

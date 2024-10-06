@@ -10,8 +10,8 @@
  *    responses:
  *      200:
  *        description: Declare that user is autheticated
- *             
- * 
+ *
+ *
  *  /logout:
  *   get:
  *    summary: Logout and delete token cookie
@@ -29,18 +29,17 @@
  *             type: string
  *            message:
  *             type: string
- * 
+ *
  */
 
-
 import { Router, Request, Response } from "express";
-import logout from "@controllers/logout";
+import logout from "@controllers/logout-controller";
 
 const router: Router = Router();
 
-router.route('/').get((req: Request, res: Response) => {
+router.route("/").get((req: Request, res: Response) => {
     res.sendStatus(200);
 });
-router.get('/logout', logout);
+router.get("/logout", logout);
 
 export default router;

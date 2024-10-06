@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
-import db from "@DB";
-import bcrypt from "bcrypt";
-import randomstring from "randomstring";
-import getUserData from "@services/googleToken";
+import { getUserData, upsertUser } from "@services/google-auth-service";
 import jwt from "jsonwebtoken";
-import createCookie from "@services/createCookie";
+import createCookie from "@services/cookie-service";
+import { User } from "@prisma/client";
 
 async function googleAuth(req: Request, res: Response): Promise<void> {
     try {
@@ -14,37 +12,18 @@ async function googleAuth(req: Request, res: Response): Promise<void> {
             throw new Error("There is no token");
         }
         //get user info using googleApi
-        const data = await getUserData(token);
+        const data: Record<string, any> | undefined = await getUserData(token);
         if (!data) {
             throw new Error("Invalid token");
         }
-        const user_data: {
-            name: string;
-            email: string;
-            password: string;
-            email_status: string;
-        } = {
-            name: data.name,
-            email: data.email,
-            password: bcrypt.hashSync(
-                randomstring.generate({ length: 250 }),
-                10
-            ),
-            email_status: "Activated",
-        };
 
-        const user = await db.user.upsert({
-            where: { email: user_data.email },
-            update: {},
-            create: user_data,
-        });
+        //upsert user into db
+        const user: User = await upsertUser(data);
 
         //create a jwt and store it in a cookie
-        const user_token: string = jwt.sign(
-            { id: user.id },
-            process.env.JWT_SECRET as string,
-            { expiresIn: process.env.JWT_EXPIRE }
-        );
+        const user_token: string = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, {
+            expiresIn: process.env.JWT_EXPIRE,
+        });
         createCookie(res, user_token);
 
         res.status(200).json({

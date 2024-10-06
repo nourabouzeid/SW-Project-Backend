@@ -12,33 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const userAuth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const email_config_1 = __importDefault(require("@config/email-config"));
+const sendEmail = (code, email) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let token = null;
-        if (req.signedCookies.token) {
-            token = req.signedCookies.token;
-        }
-        else if (req.headers.authorization) {
-            token = req.headers.authorization.replace("Bearer ", "");
-        }
-        else {
-            throw new Error("Token is not found");
-        }
-        const id = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET).id;
-        req.userId = id;
-        next();
+        const email_body = `<h3>Hello from Omar,</h3>
+            <p>Thanks for joining our family. Use this code: <b>   ${code}     </b> for verifing your email</p>`;
+        const info = yield email_config_1.default.sendMail({
+            from: process.env.AUTH_EMAIL,
+            to: email,
+            subject: "Email verfication",
+            html: email_body,
+        });
+        return info;
     }
     catch (e) {
         console.log(e.message);
-        let message = e.message;
-        if (e instanceof jsonwebtoken_1.default.JsonWebTokenError) {
-            message = "Expired Token. Login again";
-        }
-        res.status(401).json({
-            status: "failed",
-            message,
-        });
+        return undefined;
     }
 });
-exports.default = userAuth;
+// module.exports = sendEmail;
+exports.default = sendEmail;
